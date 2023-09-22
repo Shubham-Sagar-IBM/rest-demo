@@ -27,7 +27,6 @@ public class UserLocationService {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jsonNode = objectMapper.readTree(responseBody);
 
-                // Check if "country" field exists in the JSON response
                 if (jsonNode.has("country")) {
                     String country = jsonNode.get("country").asText();
                     if (!"Canada".equalsIgnoreCase(country)) {
@@ -37,7 +36,6 @@ public class UserLocationService {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Country information not found.");
                 }
 
-                // Check if "city" field exists in the JSON response
                 if (jsonNode.has("city")) {
                     city = jsonNode.get("city").asText();
                 } else {
