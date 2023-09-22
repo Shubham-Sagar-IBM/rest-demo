@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: dev
+  springfox:
+    documentation:
+      enabled: true
+    swagger-ui:
+      enabled: true

@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  title: User API
+  version: 1.0
+  description: API for user registration and location
+paths:
+  /user:
+    post:
+      summary: Check user credentials and generate a welcome message.
+      requestBody:
+        description: User registration data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              example: Welcome message
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              example: Error: User is not in Canada.
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              example: Error: An error occurred.
+components:
+  schemas:
+    UserRegistration:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        ipAddress:
+          type: string
+      required:
+        - username
+        - password
+        - ipAddress
