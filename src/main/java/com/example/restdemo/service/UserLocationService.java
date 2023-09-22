@@ -26,17 +26,28 @@ public class UserLocationService {
                 String responseBody = EntityUtils.toString(entity);
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jsonNode = objectMapper.readTree(responseBody);
-                String country = jsonNode.get("country").asText();
-                if (!"Canada".equalsIgnoreCase(country)) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: User is not in Canada.");
+
+                // Check if "country" field exists in the JSON response
+                if (jsonNode.has("country")) {
+                    String country = jsonNode.get("country").asText();
+                    if (!"Canada".equalsIgnoreCase(country)) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: User is not in Canada.");
+                    }
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Country information not found.");
                 }
-                city = jsonNode.get("city").asText();
+
+                // Check if "city" field exists in the JSON response
+                if (jsonNode.has("city")) {
+                    city = jsonNode.get("city").asText();
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: City information not found.");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: An error occurred.");
         }
-
         return ResponseEntity.ok(city);
     }
 }
